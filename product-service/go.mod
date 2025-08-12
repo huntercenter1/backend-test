@@ -8,7 +8,7 @@ require (
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/pressly/goose/v3 v3.18.0
 	github.com/uptrace/bun v1.2.15
-	github.com/uptrace/bun/dialect/pgdialect v1.2.12
+	github.com/uptrace/bun/dialect/pgdialect v1.2.15
 	github.com/uptrace/bun/dialect/sqlitedialect v1.2.15
 	github.com/uptrace/bun/driver/sqliteshim v1.2.15
 	github.com/uptrace/bun/extra/bundebug v1.2.15
