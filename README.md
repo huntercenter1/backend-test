@@ -134,19 +134,19 @@ En Message pega un JSON de ejemplo:
 
 Click Invoke. Verás la respuesta con el id del usuario.
 
+
+aquí ya puedes escribir la variable de entorno: USER_ID 
+con el id que hayas obtenido en la respuesta
+
+
 Repite para:
 
 user.UserService/AuthenticateUser:
-
 { "username":"demo2", "password":"123456" }
+
+
 user.UserService/GetUser:
-
 { "id": "{{USER_ID}}" }
+
 user.UserService/ValidateUser:
-
 { "user_id": "{{USER_ID}}" }
-Si Postman te pide reflection y no aparece el servicio, asegúrate:
-
-que el contenedor de user-service tiene reflection habilitado (ya lo tenías activo), o
-
-que importaste proto/user.proto en la request gRPC (es lo más seguro).
