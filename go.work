@@ -1,0 +1,8 @@
+go 1.23.12
+
+use (
+	./order-service
+	./product-service
+	./proto
+	./user-service
+)

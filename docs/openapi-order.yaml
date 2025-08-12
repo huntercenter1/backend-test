@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Order Service API
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8082
+paths:
+  /health:
+    get:
+      summary: Health
+      responses: {'200': {description: OK}}
+  /orders:
+    post:
+      summary: Create order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, items]
+              properties:
+                user_id: {type: string}
+                items:
+                  type: array
+                  items:
+                    type: object
+                    required: [product_id, quantity]
+                    properties:
+                      product_id: {type: string}
+                      quantity: {type: integer, minimum: 1}
+      responses: {'201': {description: Created}}
+  /orders/{id}:
+    get:
+      summary: Get order
+      parameters: [{in: path, name: id, required: true, schema: {type: string}}]
+      responses: {'200': {description: OK}, '404': {description: Not found}}
+  /orders/{id}/items:
+    get:
+      summary: List order items
+      parameters: [{in: path, name: id, required: true, schema: {type: string}}]
+      responses: {'200': {description: OK}}
+  /orders/user/{user_id}:
+    get:
+      summary: List orders by user
+      parameters: [{in: path, name: user_id, required: true, schema: {type: string}}]
+      responses: {'200': {description: OK}}
+  /orders/{id}/status:
+    put:
+      summary: Update order status
+      parameters: [{in: path, name: id, required: true, schema: {type: string}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: {type: string, enum: [pending, paid, cancelled, shipped]}
+      responses: {'200': {description: OK}}

@@ -1,0 +1,111 @@
+services:
+  # === Databases ===
+  postgres-users:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: users_db
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d users_db"]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - users_pgdata:/var/lib/postgresql/data
+
+  postgres-products:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: products_db
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d products_db"]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - products_pgdata:/var/lib/postgresql/data
+
+  postgres-orders:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: orders_db
+    ports:
+      - "5435:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d orders_db"]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - orders_pgdata:/var/lib/postgresql/data
+
+  # === User Service (gRPC) ===
+  user-service:
+    build:
+      context: ./
+      dockerfile: ./deploy/user-service.Dockerfile
+    environment:
+      APP_ENV: "local"
+      APP_PORT: ":50051"
+      DB_DSN: "postgres://user:pass@postgres-users:5432/users_db?sslmode=disable"
+      MIGRATIONS_DIR: "/app/migrations"
+      LOG_LEVEL: "info"
+    depends_on:
+      postgres-users:
+        condition: service_healthy
+    ports:
+      - "50051:50051"
+
+  # === Product Service (REST) ===
+  product-service:
+    build:
+      context: ./
+      dockerfile: ./deploy/product-service.Dockerfile
+    environment:
+      APP_ENV: "local"
+      APP_PORT: ":8081"
+      DB_DSN: "postgres://user:pass@postgres-products:5432/products_db?sslmode=disable"
+      MIGRATIONS_DIR: "/app/migrations"
+      LOG_LEVEL: "info"
+    depends_on:
+      postgres-products:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+
+  # === Order Service (REST) ===
+  order-service:
+    build:
+      context: ./
+      dockerfile: ./deploy/order-service.Dockerfile
+    environment:
+      APP_ENV: "local"
+      APP_PORT: ":8082"
+      DB_DSN: "postgres://user:pass@postgres-orders:5432/orders_db?sslmode=disable"
+      MIGRATIONS_DIR: "/app/migrations"
+      LOG_LEVEL: "info"
+      USER_GRPC_ADDR: "user-service:50051"
+      PRODUCT_BASE_URL: "http://product-service:8081"
+    depends_on:
+      postgres-orders:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+    ports:
+      - "8082:8082"
+
+volumes:
+  users_pgdata: {}
+  products_pgdata: {}
+  orders_pgdata: {}

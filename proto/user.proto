@@ -1,0 +1,34 @@
+syntax = "proto3";
+package user;
+
+// Deja los .pb.go en la carpeta proto/ (raíz del módulo)
+option go_package = "github.com/huntercenter1/backend-test/proto;userpb";
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message CreateUserRequest { string username = 1; string email = 2; string password = 3; }
+message GetUserRequest { string id = 1; }
+message UpdateUserRequest { string id = 1; string username = 2; string email = 3; string password = 4; }
+message DeleteUserRequest { string id = 1; }
+message DeleteUserResponse { bool ok = 1; }
+
+message AuthRequest { string username = 1; string password = 2; }
+message AuthResponse { bool ok = 1; string user_id = 2; string message = 3; }
+
+message ValidateUserRequest { string user_id = 1; }
+message ValidateUserResponse { bool valid = 1; string message = 2; }
+
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (User);
+  rpc GetUser(GetUserRequest) returns (User);
+  rpc UpdateUser(UpdateUserRequest) returns (User);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc AuthenticateUser(AuthRequest) returns (AuthResponse);
+  rpc ValidateUser(ValidateUserRequest) returns (ValidateUserResponse);
+}

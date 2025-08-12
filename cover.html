@@ -1,0 +1,1398 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>server: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/huntercenter1/backend-test/order-service/cmd/server/main.go (0.0%)</option>
+				
+				<option value="file1">github.com/huntercenter1/backend-test/order-service/internal/clients/product_client.go (0.0%)</option>
+				
+				<option value="file2">github.com/huntercenter1/backend-test/order-service/internal/clients/user_client.go (0.0%)</option>
+				
+				<option value="file3">github.com/huntercenter1/backend-test/order-service/internal/db/db.go (0.0%)</option>
+				
+				<option value="file4">github.com/huntercenter1/backend-test/order-service/internal/db/migrate.go (0.0%)</option>
+				
+				<option value="file5">github.com/huntercenter1/backend-test/order-service/internal/repo/order_repo.go (0.0%)</option>
+				
+				<option value="file6">github.com/huntercenter1/backend-test/order-service/internal/service/order_service.go (66.7%)</option>
+				
+				<option value="file7">github.com/huntercenter1/backend-test/order-service/internal/transport/http/router.go (73.2%)</option>
+				
+				<option value="file8">github.com/huntercenter1/backend-test/product-service/cmd/server/main.go (0.0%)</option>
+				
+				<option value="file9">github.com/huntercenter1/backend-test/product-service/internal/db/db.go (0.0%)</option>
+				
+				<option value="file10">github.com/huntercenter1/backend-test/product-service/internal/db/migrate.go (0.0%)</option>
+				
+				<option value="file11">github.com/huntercenter1/backend-test/product-service/internal/middleware/mw.go (100.0%)</option>
+				
+				<option value="file12">github.com/huntercenter1/backend-test/product-service/internal/repo/product_repo.go (35.3%)</option>
+				
+				<option value="file13">github.com/huntercenter1/backend-test/product-service/internal/transport/http/router.go (71.6%)</option>
+				
+				<option value="file14">github.com/huntercenter1/backend-test/user-service/cmd/server/main.go (0.0%)</option>
+				
+				<option value="file15">github.com/huntercenter1/backend-test/user-service/internal/auth/password.go (100.0%)</option>
+				
+				<option value="file16">github.com/huntercenter1/backend-test/user-service/internal/db/db.go (0.0%)</option>
+				
+				<option value="file17">github.com/huntercenter1/backend-test/user-service/internal/db/migrate.go (0.0%)</option>
+				
+				<option value="file18">github.com/huntercenter1/backend-test/user-service/internal/repo/user_repo.go (0.0%)</option>
+				
+				<option value="file19">github.com/huntercenter1/backend-test/user-service/internal/service/user_service.go (27.9%)</option>
+				
+				<option value="file20">github.com/huntercenter1/backend-test/user-service/internal/transport/grpc/server.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package main
+
+import (
+        "context"
+        "log"
+        "net/http"
+        "os"
+        "os/signal"
+        "syscall"
+        "time"
+
+        "github.com/gin-gonic/gin"
+
+        dbpkg "github.com/huntercenter1/backend-test/order-service/internal/db"
+        "github.com/huntercenter1/backend-test/order-service/internal/clients"
+        "github.com/huntercenter1/backend-test/order-service/internal/repo"
+        "github.com/huntercenter1/backend-test/order-service/internal/service"
+        httpr "github.com/huntercenter1/backend-test/order-service/internal/transport/http"
+)
+
+func main() <span class="cov0" title="0">{
+        if err := dbpkg.Migrate(os.Getenv("DB_DSN"), os.Getenv("MIGRATIONS_DIR")); err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("migrate: %v", err)
+        }</span>
+        <span class="cov0" title="0">db, err := dbpkg.New(context.Background())
+        if err != nil </span><span class="cov0" title="0">{ log.Fatalf("db: %v", err) }</span>
+        <span class="cov0" title="0">defer db.Close()
+
+        // clients
+        userAddr := getenv("USER_GRPC_ADDR", "user-service:50051")
+        uc, closeUC, err := clients.NewUserClient(userAddr)
+        if err != nil </span><span class="cov0" title="0">{ log.Fatalf("user client: %v", err) }</span>
+        <span class="cov0" title="0">defer closeUC()
+        pc := clients.NewProductClient(getenv("PRODUCT_BASE_URL", "http://product-service:8081"))
+
+        // wiring
+        rp := repo.New(db)
+        svc := service.New(rp, uc, pc)
+        rt := httpr.New(svc)
+
+        // http
+        r := gin.New()
+        rt.Register(r)
+
+        srv := &amp;http.Server{ Addr: getenv("APP_PORT", ":8082"), Handler: r }
+        go func() </span><span class="cov0" title="0">{
+                log.Printf("order-service HTTP listening on %s", srv.Addr)
+                if err := srv.ListenAndServe(); err != nil &amp;&amp; err != http.ErrServerClosed </span><span class="cov0" title="0">{
+                        log.Fatalf("listen: %v", err)
+                }</span>
+        }()
+
+        <span class="cov0" title="0">quit := make(chan os.Signal, 1)
+        signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+        &lt;-quit
+        ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second); defer cancel()
+        _ = srv.Shutdown(ctx)</span>
+}
+
+func getenv(k, d string) string <span class="cov0" title="0">{ v := os.Getenv(k); if v == "" </span><span class="cov0" title="0">{ return d }</span>; <span class="cov0" title="0">return v</span> }
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package clients
+
+import (
+        "bytes"
+        "context"
+        "encoding/json"
+        "fmt"
+        "net/http"
+        "time"
+)
+
+type ProductClient interface {
+        Get(ctx context.Context, id string) (*Product, error)
+        ApplyStockDelta(ctx context.Context, id string, delta int) (*Product, error)
+}
+
+type productClient struct {
+        base string
+        hc   *http.Client
+}
+
+type Product struct {
+        ID    string  `json:"id"`
+        Name  string  `json:"name"`
+        Price float64 `json:"price"`
+        Stock int     `json:"stock"`
+}
+
+func NewProductClient(base string) ProductClient <span class="cov0" title="0">{
+        return &amp;productClient{
+                base: base,
+                hc:   &amp;http.Client{ Timeout: 5 * time.Second },
+        }
+}</span>
+
+func (c *productClient) Get(ctx context.Context, id string) (*Product, error) <span class="cov0" title="0">{
+        req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("%s/products/%s", c.base, id), nil)
+        res, err := c.hc.Do(req)
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">defer res.Body.Close()
+        if res.StatusCode != http.StatusOK </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("product get status %d", res.StatusCode)
+        }</span>
+        <span class="cov0" title="0">var p Product
+        return &amp;p, json.NewDecoder(res.Body).Decode(&amp;p)</span>
+}
+
+func (c *productClient) ApplyStockDelta(ctx context.Context, id string, delta int) (*Product, error) <span class="cov0" title="0">{
+        body, _ := json.Marshal(map[string]int{"delta": delta})
+        req, _ := http.NewRequestWithContext(ctx, http.MethodPut, fmt.Sprintf("%s/products/%s/stock", c.base, id), bytes.NewReader(body))
+        req.Header.Set("Content-Type", "application/json")
+        res, err := c.hc.Do(req)
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">defer res.Body.Close()
+        if res.StatusCode != http.StatusOK </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("stock update status %d", res.StatusCode)
+        }</span>
+        <span class="cov0" title="0">var p Product
+        return &amp;p, json.NewDecoder(res.Body).Decode(&amp;p)</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package clients
+
+import (
+        "context"
+        "time"
+
+        "google.golang.org/grpc"
+        userpb "github.com/huntercenter1/backend-test/proto"
+)
+
+type UserClient interface {
+        Validate(ctx context.Context, userID string) (bool, error)
+}
+
+type userClient struct{ cc userpb.UserServiceClient }
+
+func NewUserClient(addr string) (UserClient, func() error, error) <span class="cov0" title="0">{
+        conn, err := grpc.Dial(addr, grpc.WithInsecure())
+        if err != nil </span><span class="cov0" title="0">{ return nil, nil, err }</span>
+        <span class="cov0" title="0">return &amp;userClient{cc: userpb.NewUserServiceClient(conn)}, conn.Close, nil</span>
+}
+
+func (c *userClient) Validate(ctx context.Context, userID string) (bool, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, 5*time.Second); defer cancel()
+        resp, err := c.cc.ValidateUser(ctx, &amp;userpb.ValidateUserRequest{UserId: userID})
+        if err != nil </span><span class="cov0" title="0">{ return false, err }</span>
+        <span class="cov0" title="0">return resp.GetValid(), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package db
+
+import (
+    "context"
+    "database/sql"
+    "os"
+    "time"
+
+    "github.com/uptrace/bun"
+    "github.com/uptrace/bun/dialect/pgdialect"
+    "github.com/uptrace/bun/extra/bundebug"
+    _ "github.com/jackc/pgx/v5/stdlib"
+)
+
+func New(ctx context.Context) (*bun.DB, error) <span class="cov0" title="0">{
+    dsn := os.Getenv("DB_DSN")
+    sqldb, err := sql.Open("pgx", dsn)
+    if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+    <span class="cov0" title="0">sqldb.SetMaxOpenConns(10)
+    sqldb.SetMaxIdleConns(5)
+    sqldb.SetConnMaxLifetime(30 * time.Minute)
+
+    db := bun.NewDB(sqldb, pgdialect.New())
+    if os.Getenv("APP_ENV") == "local" </span><span class="cov0" title="0">{
+        db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(true)))
+    }</span>
+    <span class="cov0" title="0">ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+    if err := db.PingContext(ctx); err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+    <span class="cov0" title="0">return db, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package db
+
+import (
+        "fmt"
+        "os"
+        "time"
+
+        goose "github.com/pressly/goose/v3"
+        _ "github.com/jackc/pgx/v5/stdlib"
+)
+
+func Migrate(dsn, dir string) error <span class="cov0" title="0">{
+        if dir == "" </span><span class="cov0" title="0">{ dir = os.Getenv("MIGRATIONS_DIR") }</span>
+        <span class="cov0" title="0">if err := goose.SetDialect("postgres"); err != nil </span><span class="cov0" title="0">{ return err }</span>
+
+        <span class="cov0" title="0">deadline := time.Now().Add(60 * time.Second)
+        var lastErr error
+        for time.Now().Before(deadline) </span><span class="cov0" title="0">{
+                db, err := goose.OpenDBWithDriver("pgx", dsn)
+                if err == nil </span><span class="cov0" title="0">{
+                        err = goose.Up(db, dir)
+                        db.Close()
+                        if err == nil </span><span class="cov0" title="0">{
+                                return nil
+                        }</span>
+                }
+                <span class="cov0" title="0">lastErr = err
+                time.Sleep(2 * time.Second)</span>
+        }
+        <span class="cov0" title="0">return fmt.Errorf("migrate failed after retries: %w", lastErr)</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package repo
+
+import (
+        "context"
+        "errors"
+        "time"
+
+        "github.com/uptrace/bun"
+
+        "github.com/huntercenter1/backend-test/order-service/internal/models"
+)
+
+var (
+        ErrNotFound = errors.New("not found")
+        timeout     = 5 * time.Second
+)
+
+type Repo interface {
+        CreateOrder(ctx context.Context, o *models.Order, items []models.OrderItem) (*models.Order, []models.OrderItem, error)
+        GetOrder(ctx context.Context, id string) (*models.Order, error)
+        GetItems(ctx context.Context, orderID string) ([]models.OrderItem, error)
+        ListByUser(ctx context.Context, userID string) ([]models.Order, error)
+        UpdateStatus(ctx context.Context, id, status string) (*models.Order, error)
+}
+
+type repo struct{ db *bun.DB }
+
+func New(db *bun.DB) Repo <span class="cov0" title="0">{ return &amp;repo{db: db} }</span>
+
+func (r *repo) CreateOrder(ctx context.Context, o *models.Order, items []models.OrderItem) (*models.Order, []models.OrderItem, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+
+        err := r.db.RunInTx(ctx, nil, func(ctx context.Context, tx bun.Tx) error </span><span class="cov0" title="0">{
+                if _, err := tx.NewInsert().Model(o).Exec(ctx); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">for i := range items </span><span class="cov0" title="0">{
+                        items[i].OrderID = o.ID
+                }</span>
+                <span class="cov0" title="0">if _, err := tx.NewInsert().Model(&amp;items).Exec(ctx); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">return nil</span>
+        })
+        <span class="cov0" title="0">return o, items, err</span>
+}
+
+func (r *repo) GetOrder(ctx context.Context, id string) (*models.Order, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        var o models.Order
+        if err := r.db.NewSelect().Model(&amp;o).Where("id = ?", id).Scan(ctx); err != nil </span><span class="cov0" title="0">{
+                return nil, ErrNotFound
+        }</span>
+        <span class="cov0" title="0">return &amp;o, nil</span>
+}
+
+func (r *repo) GetItems(ctx context.Context, orderID string) ([]models.OrderItem, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        var items []models.OrderItem
+        if err := r.db.NewSelect().Model(&amp;items).Where("order_id = ?", orderID).Scan(ctx); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return items, nil</span>
+}
+
+func (r *repo) ListByUser(ctx context.Context, userID string) ([]models.Order, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        var orders []models.Order
+        if err := r.db.NewSelect().Model(&amp;orders).Where("user_id = ?", userID).Order("created_at DESC").Scan(ctx); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return orders, nil</span>
+}
+
+func (r *repo) UpdateStatus(ctx context.Context, id, status string) (*models.Order, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        o, err := r.GetOrder(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">o.Status = status
+        o.UpdatedAt = time.Now()
+        if _, err := r.db.NewUpdate().Model(o).Column("status", "updated_at").WherePK().Exec(ctx); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return o, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package service
+
+import (
+        "context"
+        "errors"
+
+        "github.com/huntercenter1/backend-test/order-service/internal/clients"
+        "github.com/huntercenter1/backend-test/order-service/internal/models"
+        "github.com/huntercenter1/backend-test/order-service/internal/repo"
+)
+
+type CreateItem struct {
+        ProductID string  `json:"product_id"`
+        Quantity  int     `json:"quantity"`
+}
+
+type Service interface {
+        Create(ctx context.Context, userID string, items []CreateItem) (*models.Order, []models.OrderItem, error)
+        Get(ctx context.Context, id string) (*models.Order, error)
+        Items(ctx context.Context, id string) ([]models.OrderItem, error)
+        ByUser(ctx context.Context, userID string) ([]models.Order, error)
+        UpdateStatus(ctx context.Context, id, status string) (*models.Order, error)
+}
+
+type service struct {
+        repo repo.Repo
+        uc   clients.UserClient
+        pc   clients.ProductClient
+}
+
+func New(r repo.Repo, uc clients.UserClient, pc clients.ProductClient) Service <span class="cov10" title="3">{
+        return &amp;service{repo: r, uc: uc, pc: pc}
+}</span>
+
+func (s *service) Create(ctx context.Context, userID string, items []CreateItem) (*models.Order, []models.OrderItem, error) <span class="cov10" title="3">{
+        if userID == "" || len(items) == 0 </span><span class="cov0" title="0">{ return nil, nil, errors.New("invalid payload") }</span>
+
+        // 1) validar usuario
+        <span class="cov10" title="3">ok, err := s.uc.Validate(ctx, userID)
+        if err != nil || !ok </span><span class="cov1" title="1">{ return nil, nil, errors.New("invalid user") }</span>
+
+        // 2) verificar stock y total
+        <span class="cov6" title="2">var orderItems []models.OrderItem
+        var total float64
+        for _, it := range items </span><span class="cov6" title="2">{
+                if it.Quantity &lt;= 0 </span><span class="cov0" title="0">{ return nil, nil, errors.New("quantity must be &gt; 0") }</span>
+                <span class="cov6" title="2">p, err := s.pc.Get(ctx, it.ProductID)
+                if err != nil </span><span class="cov0" title="0">{ return nil, nil, err }</span>
+                <span class="cov6" title="2">if p.Stock &lt; it.Quantity </span><span class="cov1" title="1">{ return nil, nil, errors.New("insufficient stock") }</span>
+                <span class="cov1" title="1">line := models.OrderItem{
+                        ProductID: it.ProductID,
+                        Quantity:  it.Quantity,
+                        Price:     p.Price,
+                }
+                total += p.Price * float64(it.Quantity)
+                orderItems = append(orderItems, line)</span>
+        }
+
+        // 3) crear orden
+        <span class="cov1" title="1">o := &amp;models.Order{ UserID: userID, Status: "pending", Total: total }
+        o, orderItems, err = s.repo.CreateOrder(ctx, o, orderItems)
+        if err != nil </span><span class="cov0" title="0">{ return nil, nil, err }</span>
+
+        // 4) descontar stock (delta negativo) por cada item
+        <span class="cov1" title="1">for _, it := range items </span><span class="cov1" title="1">{
+                if _, err := s.pc.ApplyStockDelta(ctx, it.ProductID, -it.Quantity); err != nil </span><span class="cov0" title="0">{
+                        // Nota: en un caso real, aquí haríamos compensación/cola
+                        return o, orderItems, nil // devolvemos la orden creada aunque haya fallos de stock update
+                }</span>
+        }
+
+        <span class="cov1" title="1">return o, orderItems, nil</span>
+}
+
+func (s *service) Get(ctx context.Context, id string) (*models.Order, error) <span class="cov0" title="0">{
+        return s.repo.GetOrder(ctx, id)
+}</span>
+
+func (s *service) Items(ctx context.Context, id string) ([]models.OrderItem, error) <span class="cov0" title="0">{
+        return s.repo.GetItems(ctx, id)
+}</span>
+
+func (s *service) ByUser(ctx context.Context, userID string) ([]models.Order, error) <span class="cov0" title="0">{
+        return s.repo.ListByUser(ctx, userID)
+}</span>
+
+func (s *service) UpdateStatus(ctx context.Context, id, status string) (*models.Order, error) <span class="cov0" title="0">{
+        if status == "" </span><span class="cov0" title="0">{ return nil, errors.New("status required") }</span>
+        <span class="cov0" title="0">return s.repo.UpdateStatus(ctx, id, status)</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package http
+
+import (
+        "net/http"
+
+        "github.com/gin-gonic/gin"
+
+        "github.com/huntercenter1/backend-test/order-service/internal/service"
+)
+
+type Router struct {
+        svc service.Service
+}
+
+func New(svc service.Service) *Router <span class="cov10" title="2">{ return &amp;Router{svc: svc} }</span>
+
+func (rt *Router) Register(r *gin.Engine) <span class="cov10" title="2">{
+        r.GET("/health", func(c *gin.Context)</span><span class="cov0" title="0">{ c.JSON(http.StatusOK, gin.H{"status":"ok"}) }</span>)
+        <span class="cov10" title="2">r.POST("/orders", rt.create)
+        r.GET("/orders/:id", rt.get)
+        r.GET("/orders/:id/items", rt.items)
+        r.GET("/orders/user/:user_id", rt.byUser)
+        r.PUT("/orders/:id/status", rt.updateStatus)</span>
+}
+
+type createReq struct {
+        UserID string               `json:"user_id"`
+        Items  []service.CreateItem `json:"items"`
+}
+
+func (rt *Router) create(c *gin.Context) <span class="cov10" title="2">{
+        var req createReq
+        if err := c.ShouldBindJSON(&amp;req); err != nil || req.UserID == "" || len(req.Items) == 0 </span><span class="cov1" title="1">{
+                c.JSON(http.StatusBadRequest, gin.H{"error":"invalid payload"}); return
+        }</span>
+        <span class="cov1" title="1">o, items, err := rt.svc.Create(c.Request.Context(), req.UserID, req.Items)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusCreated, gin.H{"order": o, "items": items})</span>
+}
+
+func (rt *Router) get(c *gin.Context) <span class="cov1" title="1">{
+        o, err := rt.svc.Get(c.Request.Context(), c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusNotFound, gin.H{"error":"not found"}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, o)</span>
+}
+
+func (rt *Router) items(c *gin.Context) <span class="cov1" title="1">{
+        items, err := rt.svc.Items(c.Request.Context(), c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusNotFound, gin.H{"error":"not found"}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, gin.H{"items": items})</span>
+}
+
+func (rt *Router) byUser(c *gin.Context) <span class="cov1" title="1">{
+        list, err := rt.svc.ByUser(c.Request.Context(), c.Param("user_id"))
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, gin.H{"orders": list})</span>
+}
+
+type statusReq struct{ Status string `json:"status"` }
+
+func (rt *Router) updateStatus(c *gin.Context) <span class="cov10" title="2">{
+        var body statusReq
+        if err := c.ShouldBindJSON(&amp;body); err != nil || body.Status == "" </span><span class="cov1" title="1">{
+                c.JSON(http.StatusBadRequest, gin.H{"error":"invalid body"}); return
+        }</span>
+        <span class="cov1" title="1">o, err := rt.svc.UpdateStatus(c.Request.Context(), c.Param("id"), body.Status)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, o)</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package main
+
+import (
+        "context"
+        "log"
+        "net/http"
+        "os"
+        "os/signal"
+        "syscall"
+        "time"
+
+        "github.com/gin-gonic/gin"
+
+        dbpkg "github.com/huntercenter1/backend-test/product-service/internal/db"
+        httpr "github.com/huntercenter1/backend-test/product-service/internal/transport/http"
+)
+
+func main() <span class="cov0" title="0">{
+        if err := dbpkg.Migrate(os.Getenv("DB_DSN"), os.Getenv("MIGRATIONS_DIR")); err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("migrate: %v", err)
+        }</span>
+        <span class="cov0" title="0">db, err := dbpkg.New(context.Background())
+        if err != nil </span><span class="cov0" title="0">{ log.Fatalf("db: %v", err) }</span>
+        <span class="cov0" title="0">defer db.Close()
+
+        r := gin.New()
+        rt := httpr.New(db)
+        rt.Register(r)
+
+        srv := &amp;http.Server{ Addr: getenv("APP_PORT", ":8081"), Handler: r }
+        go func()</span><span class="cov0" title="0">{
+                log.Printf("product-service HTTP listening on %s", srv.Addr)
+                if err := srv.ListenAndServe(); err != nil &amp;&amp; err != http.ErrServerClosed </span><span class="cov0" title="0">{
+                        log.Fatalf("listen: %v", err)
+                }</span>
+        }()
+
+        <span class="cov0" title="0">quit := make(chan os.Signal, 1)
+        signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+        &lt;-quit
+        ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second); defer cancel()
+        _ = srv.Shutdown(ctx)</span>
+}
+
+func getenv(k, d string) string <span class="cov0" title="0">{ v := os.Getenv(k); if v == "" </span><span class="cov0" title="0">{ return d }</span>; <span class="cov0" title="0">return v</span> }
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package db
+
+import (
+    "context"
+    "database/sql"
+    "os"
+    "time"
+
+    "github.com/uptrace/bun"
+    "github.com/uptrace/bun/dialect/pgdialect"
+    "github.com/uptrace/bun/extra/bundebug"
+    _ "github.com/jackc/pgx/v5/stdlib"
+)
+
+func New(ctx context.Context) (*bun.DB, error) <span class="cov0" title="0">{
+    dsn := os.Getenv("DB_DSN")
+    sqldb, err := sql.Open("pgx", dsn)
+    if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+    <span class="cov0" title="0">sqldb.SetMaxOpenConns(10)
+    sqldb.SetMaxIdleConns(5)
+    sqldb.SetConnMaxLifetime(30 * time.Minute)
+
+    db := bun.NewDB(sqldb, pgdialect.New())
+    if os.Getenv("APP_ENV") == "local" </span><span class="cov0" title="0">{
+        db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(true)))
+    }</span>
+    <span class="cov0" title="0">ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+    if err := db.PingContext(ctx); err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+    <span class="cov0" title="0">return db, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package db
+
+import (
+        "fmt"
+        "os"
+        "time"
+
+        goose "github.com/pressly/goose/v3"
+        _ "github.com/jackc/pgx/v5/stdlib"
+)
+
+func Migrate(dsn, dir string) error <span class="cov0" title="0">{
+        if dir == "" </span><span class="cov0" title="0">{ dir = os.Getenv("MIGRATIONS_DIR") }</span>
+        <span class="cov0" title="0">if err := goose.SetDialect("postgres"); err != nil </span><span class="cov0" title="0">{ return err }</span>
+
+        <span class="cov0" title="0">deadline := time.Now().Add(60 * time.Second)
+        var lastErr error
+        for time.Now().Before(deadline) </span><span class="cov0" title="0">{
+                db, err := goose.OpenDBWithDriver("pgx", dsn)
+                if err == nil </span><span class="cov0" title="0">{
+                        err = goose.Up(db, dir)
+                        db.Close()
+                        if err == nil </span><span class="cov0" title="0">{
+                                return nil
+                        }</span>
+                }
+                <span class="cov0" title="0">lastErr = err
+                time.Sleep(2 * time.Second)</span>
+        }
+        <span class="cov0" title="0">return fmt.Errorf("migrate failed after retries: %w", lastErr)</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package middleware
+
+import (
+        "context"
+        "time"
+
+        "github.com/gin-gonic/gin"
+        "github.com/google/uuid"
+)
+
+func RequestID() gin.HandlerFunc <span class="cov3" title="2">{
+        return func(c *gin.Context) </span><span class="cov10" title="9">{
+                id := uuid.New().String()
+                c.Writer.Header().Set("X-Request-Id", id)
+                c.Next()
+        }</span>
+}
+
+func Timeout(d time.Duration) gin.HandlerFunc <span class="cov3" title="2">{
+        return func(c *gin.Context) </span><span class="cov10" title="9">{
+                ctx, cancel := context.WithTimeout(c.Request.Context(), d)
+                defer cancel()
+                c.Request = c.Request.WithContext(ctx)
+                c.Next()
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package repo
+
+import (
+        "context"
+        "errors"
+        "strings"
+        "time"
+
+        "github.com/uptrace/bun"
+
+        "github.com/huntercenter1/backend-test/product-service/internal/models"
+)
+
+var (
+        ErrNotFound = errors.New("product not found")
+        timeout     = 5 * time.Second
+)
+
+type ProductRepo interface {
+        Create(ctx context.Context, p *models.Product) (*models.Product, error)
+        GetByID(ctx context.Context, id string) (*models.Product, error)
+        Update(ctx context.Context, p *models.Product) (*models.Product, error)
+        Delete(ctx context.Context, id string) error
+        List(ctx context.Context, limit, offset int) ([]models.Product, int, error)
+        Search(ctx context.Context, q string, limit, offset int) ([]models.Product, int, error)
+        UpdateStock(ctx context.Context, id string, delta int) (*models.Product, error)
+}
+
+type productRepo struct{ db *bun.DB }
+
+func New(db *bun.DB) ProductRepo <span class="cov1" title="1">{ return &amp;productRepo{db: db} }</span>
+
+func (r *productRepo) Create(ctx context.Context, p *models.Product) (*models.Product, error) <span class="cov1" title="1">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        _, err := r.db.NewInsert().Model(p).Exec(ctx)
+        return p, err
+}</span>
+
+func (r *productRepo) GetByID(ctx context.Context, id string) (*models.Product, error) <span class="cov10" title="2">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        var p models.Product
+        if err := r.db.NewSelect().Model(&amp;p).Where("id = ?", id).Scan(ctx); err != nil </span><span class="cov0" title="0">{
+                return nil, ErrNotFound
+        }</span>
+        <span class="cov10" title="2">return &amp;p, nil</span>
+}
+
+func (r *productRepo) Update(ctx context.Context, p *models.Product) (*models.Product, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        p.UpdatedAt = time.Now()
+        _, err := r.db.NewUpdate().Model(p).Column("name", "description", "price", "stock", "updated_at").WherePK().Exec(ctx)
+        return p, err
+}</span>
+
+func (r *productRepo) Delete(ctx context.Context, id string) error <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        res, err := r.db.NewDelete().Model((*models.Product)(nil)).Where("id = ?", id).Exec(ctx)
+        if err != nil </span><span class="cov0" title="0">{ return err }</span>
+        <span class="cov0" title="0">if n, _ := res.RowsAffected(); n == 0 </span><span class="cov0" title="0">{ return ErrNotFound }</span>
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (r *productRepo) List(ctx context.Context, limit, offset int) ([]models.Product, int, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        var items []models.Product
+        q := r.db.NewSelect().Model(&amp;items).Order("created_at DESC").Limit(limit).Offset(offset)
+        if err := q.Scan(ctx); err != nil </span><span class="cov0" title="0">{ return nil, 0, err }</span>
+        <span class="cov0" title="0">total, err := r.db.NewSelect().Model((*models.Product)(nil)).Count(ctx)
+        return items, total, err</span>
+}
+
+func (r *productRepo) Search(ctx context.Context, qstr string, limit, offset int) ([]models.Product, int, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        qstr = strings.TrimSpace(qstr)
+        var items []models.Product
+        q := r.db.NewSelect().Model(&amp;items).
+                Where("name ILIKE ? OR description ILIKE ?", "%"+qstr+"%", "%"+qstr+"%").
+                Order("created_at DESC").Limit(limit).Offset(offset)
+        if err := q.Scan(ctx); err != nil </span><span class="cov0" title="0">{ return nil, 0, err }</span>
+        <span class="cov0" title="0">total, err := r.db.NewSelect().Model((*models.Product)(nil)).
+                Where("name ILIKE ? OR description ILIKE ?", "%"+qstr+"%", "%"+qstr+"%").Count(ctx)
+        return items, total, err</span>
+}
+
+func (r *productRepo) UpdateStock(ctx context.Context, id string, delta int) (*models.Product, error) <span class="cov1" title="1">{
+        ctx, cancel := context.WithTimeout(ctx, timeout); defer cancel()
+        p, err := r.GetByID(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov1" title="1">p.Stock += delta
+        if p.Stock &lt; 0 </span><span class="cov0" title="0">{ p.Stock = 0 }</span>
+        <span class="cov1" title="1">_, err = r.db.NewUpdate().Model(p).Column("stock", "updated_at").WherePK().Exec(ctx)
+        return p, err</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package http
+
+import (
+        "net/http"
+        "strconv"
+        "time"
+
+        "github.com/gin-gonic/gin"
+        "github.com/uptrace/bun"
+
+        "github.com/huntercenter1/backend-test/product-service/internal/middleware"
+        "github.com/huntercenter1/backend-test/product-service/internal/models"
+        "github.com/huntercenter1/backend-test/product-service/internal/repo"
+)
+
+type Router struct {
+        db   *bun.DB
+        repo repo.ProductRepo
+}
+
+func New(db *bun.DB) *Router <span class="cov5" title="2">{
+        return &amp;Router{db: db, repo: repo.New(db)}
+}</span>
+
+func (rt *Router) Register(r *gin.Engine) <span class="cov5" title="2">{
+        r.Use(gin.Recovery(), middleware.RequestID(), middleware.Timeout(5*time.Second))
+
+        r.GET("/health", func(c *gin.Context)</span><span class="cov0" title="0">{ c.JSON(http.StatusOK, gin.H{"status":"ok"}) }</span>)
+
+        <span class="cov5" title="2">r.GET("/products", rt.list)
+        r.POST("/products", rt.create)
+        r.GET("/products/:id", rt.get)
+        r.PUT("/products/:id", rt.update)
+        r.DELETE("/products/:id", rt.delete)
+        r.GET("/products/search", rt.search)
+        r.PUT("/products/:id/stock", rt.updateStock)</span>
+}
+
+func (rt *Router) list(c *gin.Context) <span class="cov8" title="3">{
+        limit, offset := parsePag(c)
+        items, total, err := rt.repo.List(c.Request.Context(), limit, offset)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov8" title="3">c.JSON(http.StatusOK, gin.H{"items": items, "total": total, "limit": limit, "offset": offset})</span>
+}
+
+func (rt *Router) create(c *gin.Context) <span class="cov1" title="1">{
+        var p models.Product
+        if err := c.ShouldBindJSON(&amp;p); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusBadRequest, gin.H{"error": "invalid body"}); return
+        }</span>
+        <span class="cov1" title="1">if p.Name == "" || p.Price &lt;= 0 </span><span class="cov0" title="0">{ c.JSON(http.StatusBadRequest, gin.H{"error":"name/price required"}); return }</span>
+        <span class="cov1" title="1">res, err := rt.repo.Create(c.Request.Context(), &amp;p)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusCreated, res)</span>
+}
+
+func (rt *Router) get(c *gin.Context) <span class="cov1" title="1">{
+        id := c.Param("id")
+        p, err := rt.repo.GetByID(c.Request.Context(), id)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusNotFound, gin.H{"error":"not found"}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, p)</span>
+}
+
+func (rt *Router) update(c *gin.Context) <span class="cov1" title="1">{
+        id := c.Param("id")
+        var body models.Product
+        if err := c.ShouldBindJSON(&amp;body); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusBadRequest, gin.H{"error": "invalid body"}); return
+        }</span>
+        <span class="cov1" title="1">p, err := rt.repo.GetByID(c.Request.Context(), id)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusNotFound, gin.H{"error":"not found"}); return }</span>
+        <span class="cov1" title="1">if body.Name != "" </span><span class="cov1" title="1">{ p.Name = body.Name }</span>
+        <span class="cov1" title="1">if body.Description != "" </span><span class="cov1" title="1">{ p.Description = body.Description }</span>
+        <span class="cov1" title="1">if body.Price &gt; 0 </span><span class="cov1" title="1">{ p.Price = body.Price }</span>
+        <span class="cov1" title="1">if body.Stock &gt;= 0 </span><span class="cov1" title="1">{ p.Stock = body.Stock }</span>
+        <span class="cov1" title="1">res, err := rt.repo.Update(c.Request.Context(), p)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, res)</span>
+}
+
+func (rt *Router) delete(c *gin.Context) <span class="cov1" title="1">{
+        id := c.Param("id")
+        if err := rt.repo.Delete(c.Request.Context(), id); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusNotFound, gin.H{"error":"not found"}); return
+        }</span>
+        <span class="cov1" title="1">c.Status(http.StatusNoContent)</span>
+}
+
+func (rt *Router) search(c *gin.Context) <span class="cov1" title="1">{
+        q := c.Query("q")
+        limit, offset := parsePag(c)
+        items, total, err := rt.repo.Search(c.Request.Context(), q, limit, offset)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, gin.H{"items": items, "total": total, "limit": limit, "offset": offset})</span>
+}
+
+type stockBody struct { Delta int `json:"delta"` }
+
+func (rt *Router) updateStock(c *gin.Context) <span class="cov1" title="1">{
+        id := c.Param("id")
+        var body stockBody
+        if err := c.ShouldBindJSON(&amp;body); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusBadRequest, gin.H{"error":"invalid body"}); return
+        }</span>
+        <span class="cov1" title="1">res, err := rt.repo.UpdateStock(c.Request.Context(), id, body.Delta)
+        if err != nil </span><span class="cov0" title="0">{ c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return }</span>
+        <span class="cov1" title="1">c.JSON(http.StatusOK, res)</span>
+}
+
+func parsePag(c *gin.Context) (int, int) <span class="cov10" title="4">{
+        limit := 20; offset := 0
+        if v := c.Query("limit"); v != "" </span><span class="cov8" title="3">{ if n, err := strconv.Atoi(v); err==nil &amp;&amp; n&gt;0 &amp;&amp; n&lt;=100 </span><span class="cov1" title="1">{ limit = n }</span> }
+        <span class="cov10" title="4">if v := c.Query("offset"); v != "" </span><span class="cov8" title="3">{ if n, err := strconv.Atoi(v); err==nil &amp;&amp; n&gt;=0 </span><span class="cov5" title="2">{ offset = n }</span> }
+        <span class="cov10" title="4">return limit, offset</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package main
+
+import (
+        "context"
+        "log"
+        "net"
+        "os"
+        "os/signal"
+        "syscall"
+        "time"
+
+        "google.golang.org/grpc"
+        "google.golang.org/grpc/reflection"
+
+        userpb "github.com/huntercenter1/backend-test/proto"
+        dbpkg "github.com/huntercenter1/backend-test/user-service/internal/db"
+        "github.com/huntercenter1/backend-test/user-service/internal/repo"
+        "github.com/huntercenter1/backend-test/user-service/internal/service"
+        grpcsvr "github.com/huntercenter1/backend-test/user-service/internal/transport/grpc"
+)
+
+func main() <span class="cov0" title="0">{
+        if err := dbpkg.Migrate(os.Getenv("DB_DSN"), os.Getenv("MIGRATIONS_DIR")); err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("migrate: %v", err)
+        }</span>
+        <span class="cov0" title="0">db, err := dbpkg.New(context.Background())
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("db connect: %v", err)
+        }</span>
+        <span class="cov0" title="0">defer func() </span><span class="cov0" title="0">{ _ = db.Close() }</span>()
+
+        <span class="cov0" title="0">r := repo.NewUserRepo(db)
+        svc := service.New(r)
+        h := grpcsvr.NewServer(svc)
+
+        addr := getenv("APP_PORT", ":50051")
+        lis, err := net.Listen("tcp", addr)
+        if err != nil </span><span class="cov0" title="0">{ log.Fatalf("listen: %v", err) }</span>
+
+        <span class="cov0" title="0">s := grpc.NewServer()
+        userpb.RegisterUserServiceServer(s, h)
+
+        // SIEMPRE habilitar reflection para debug
+        reflection.Register(s)
+        log.Println("gRPC reflection enabled")
+
+        go func() </span><span class="cov0" title="0">{
+                log.Printf("user-service gRPC listening on %s", addr)
+                if err := s.Serve(lis); err != nil </span><span class="cov0" title="0">{ log.Fatalf("grpc serve: %v", err) }</span>
+        }()
+
+        <span class="cov0" title="0">quit := make(chan os.Signal, 1)
+        signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+        &lt;-quit
+        log.Println("shutting down gRPC server...")
+        stopped := make(chan struct{})
+        go func() </span><span class="cov0" title="0">{ s.GracefulStop(); close(stopped) }</span>()
+        <span class="cov0" title="0">select </span>{
+        case &lt;-stopped:<span class="cov0" title="0"></span>
+        case &lt;-time.After(10 * time.Second):<span class="cov0" title="0">
+                s.Stop()</span>
+        }
+}
+
+func getenv(k, d string) string <span class="cov0" title="0">{ v := os.Getenv(k); if v == "" </span><span class="cov0" title="0">{ return d }</span>; <span class="cov0" title="0">return v</span> }
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package auth
+
+import "golang.org/x/crypto/bcrypt"
+
+func HashPassword(plain string) (string, error) <span class="cov8" title="1">{
+        hash, err := bcrypt.GenerateFromPassword([]byte(plain), bcrypt.DefaultCost)
+        return string(hash), err
+}</span>
+
+func CheckPassword(hash, plain string) bool <span class="cov8" title="1">{
+        return bcrypt.CompareHashAndPassword([]byte(hash), []byte(plain)) == nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package db
+
+import (
+    "context"
+    "database/sql"
+    "os"
+    "time"
+
+    "github.com/uptrace/bun"
+    "github.com/uptrace/bun/dialect/pgdialect"
+    "github.com/uptrace/bun/extra/bundebug"
+    _ "github.com/jackc/pgx/v5/stdlib"
+)
+
+func New(ctx context.Context) (*bun.DB, error) <span class="cov0" title="0">{
+    dsn := os.Getenv("DB_DSN")
+    sqldb, err := sql.Open("pgx", dsn)
+    if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+    <span class="cov0" title="0">sqldb.SetMaxOpenConns(10)
+    sqldb.SetMaxIdleConns(5)
+    sqldb.SetConnMaxLifetime(30 * time.Minute)
+
+    db := bun.NewDB(sqldb, pgdialect.New())
+    if os.Getenv("APP_ENV") == "local" </span><span class="cov0" title="0">{
+        db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(true)))
+    }</span>
+    <span class="cov0" title="0">ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+    if err := db.PingContext(ctx); err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+    <span class="cov0" title="0">return db, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package db
+
+import (
+        "fmt"
+        "os"
+        "time"
+
+        goose "github.com/pressly/goose/v3"
+        _ "github.com/jackc/pgx/v5/stdlib"
+)
+
+func Migrate(dsn, dir string) error <span class="cov0" title="0">{
+        if dir == "" </span><span class="cov0" title="0">{ dir = os.Getenv("MIGRATIONS_DIR") }</span>
+        <span class="cov0" title="0">if err := goose.SetDialect("postgres"); err != nil </span><span class="cov0" title="0">{ return err }</span>
+
+        <span class="cov0" title="0">deadline := time.Now().Add(60 * time.Second)
+        var lastErr error
+        for time.Now().Before(deadline) </span><span class="cov0" title="0">{
+                db, err := goose.OpenDBWithDriver("pgx", dsn)
+                if err == nil </span><span class="cov0" title="0">{
+                        err = goose.Up(db, dir)
+                        db.Close()
+                        if err == nil </span><span class="cov0" title="0">{
+                                return nil
+                        }</span>
+                }
+                <span class="cov0" title="0">lastErr = err
+                time.Sleep(2 * time.Second)</span>
+        }
+        <span class="cov0" title="0">return fmt.Errorf("migrate failed after retries: %w", lastErr)</span>
+}
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package repo
+
+import (
+        "context"
+        "errors"
+        "time"
+
+        "github.com/uptrace/bun"
+
+        "github.com/huntercenter1/backend-test/user-service/internal/models"
+)
+
+var (
+        ErrNotFound      = errors.New("user not found")
+        ErrDuplicate     = errors.New("user duplicate username/email")
+        defaultTimeout   = 5 * time.Second
+)
+
+type UserRepo interface {
+        Create(ctx context.Context, u *models.User) (*models.User, error)
+        GetByID(ctx context.Context, id string) (*models.User, error)
+        GetByUsername(ctx context.Context, username string) (*models.User, error)
+        Update(ctx context.Context, u *models.User) (*models.User, error)
+        Delete(ctx context.Context, id string) error
+}
+
+type userRepo struct {
+        db *bun.DB
+}
+
+func NewUserRepo(db *bun.DB) UserRepo <span class="cov0" title="0">{
+        return &amp;userRepo{db: db}
+}</span>
+
+func (r *userRepo) Create(ctx context.Context, u *models.User) (*models.User, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        _, err := r.db.NewInsert().Model(u).Exec(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                // índice unique en username/email → tratamos como duplicado
+                return nil, ErrDuplicate
+        }</span>
+        <span class="cov0" title="0">return u, nil</span>
+}
+
+func (r *userRepo) GetByID(ctx context.Context, id string) (*models.User, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        var u models.User
+        err := r.db.NewSelect().Model(&amp;u).Where("id = ?", id).Scan(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, ErrNotFound
+        }</span>
+        <span class="cov0" title="0">return &amp;u, nil</span>
+}
+
+func (r *userRepo) GetByUsername(ctx context.Context, username string) (*models.User, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        var u models.User
+        err := r.db.NewSelect().Model(&amp;u).Where("username = ?", username).Scan(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, ErrNotFound
+        }</span>
+        <span class="cov0" title="0">return &amp;u, nil</span>
+}
+
+func (r *userRepo) Update(ctx context.Context, u *models.User) (*models.User, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        u.UpdatedAt = time.Now()
+        _, err := r.db.NewUpdate().Model(u).
+                Column("username", "email", "password_hash", "updated_at").
+                WherePK().
+                Exec(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return u, nil</span>
+}
+
+func (r *userRepo) Delete(ctx context.Context, id string) error <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        res, err := r.db.NewDelete().Model((*models.User)(nil)).Where("id = ?", id).Exec(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">aff, _ := res.RowsAffected()
+        if aff == 0 </span><span class="cov0" title="0">{
+                return ErrNotFound
+        }</span>
+        <span class="cov0" title="0">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">package service
+
+import (
+        "context"
+        "errors"
+        "strings"
+        "time"
+
+        "github.com/huntercenter1/backend-test/user-service/internal/auth"
+        "github.com/huntercenter1/backend-test/user-service/internal/models"
+        "github.com/huntercenter1/backend-test/user-service/internal/repo"
+)
+
+var defaultTimeout = 5 * time.Second
+
+type UserService interface {
+        Create(ctx context.Context, username, email, password string) (*models.User, error)
+        Get(ctx context.Context, id string) (*models.User, error)
+        Update(ctx context.Context, id, username, email, password string) (*models.User, error)
+        Delete(ctx context.Context, id string) error
+        Authenticate(ctx context.Context, username, password string) (string, error)
+        Validate(ctx context.Context, id string) (bool, error)
+}
+
+type userService struct {
+        repo repo.UserRepo
+}
+
+func New(repo repo.UserRepo) UserService <span class="cov1" title="1">{
+        return &amp;userService{repo: repo}
+}</span>
+
+func (s *userService) Create(ctx context.Context, username, email, password string) (*models.User, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        username = strings.TrimSpace(username)
+        email = strings.TrimSpace(strings.ToLower(email))
+        if username == "" || email == "" || password == "" </span><span class="cov0" title="0">{
+                return nil, errors.New("missing fields")
+        }</span>
+        <span class="cov0" title="0">hash, err := auth.HashPassword(password)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">user := &amp;models.User{
+                Username:     username,
+                Email:        email,
+                PasswordHash: hash,
+        }
+        return s.repo.Create(ctx, user)</span>
+}
+
+func (s *userService) Get(ctx context.Context, id string) (*models.User, error) <span class="cov0" title="0">{
+        return s.repo.GetByID(ctx, id)
+}</span>
+
+func (s *userService) Update(ctx context.Context, id, username, email, password string) (*models.User, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        u, err := s.repo.GetByID(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">if strings.TrimSpace(username) != "" </span><span class="cov0" title="0">{
+                u.Username = strings.TrimSpace(username)
+        }</span>
+        <span class="cov0" title="0">if strings.TrimSpace(email) != "" </span><span class="cov0" title="0">{
+                u.Email = strings.TrimSpace(strings.ToLower(email))
+        }</span>
+        <span class="cov0" title="0">if strings.TrimSpace(password) != "" </span><span class="cov0" title="0">{
+                hash, err := auth.HashPassword(password)
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+                <span class="cov0" title="0">u.PasswordHash = hash</span>
+        }
+        <span class="cov0" title="0">return s.repo.Update(ctx, u)</span>
+}
+
+func (s *userService) Delete(ctx context.Context, id string) error <span class="cov0" title="0">{
+        return s.repo.Delete(ctx, id)
+}</span>
+
+func (s *userService) Authenticate(ctx context.Context, username, password string) (string, error) <span class="cov1" title="1">{
+        ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
+        defer cancel()
+
+        u, err := s.repo.GetByUsername(ctx, strings.TrimSpace(username))
+        if err != nil </span><span class="cov0" title="0">{
+                return "", errors.New("invalid credentials")
+        }</span>
+        <span class="cov1" title="1">if !auth.CheckPassword(u.PasswordHash, password) </span><span class="cov0" title="0">{
+                return "", errors.New("invalid credentials")
+        }</span>
+        <span class="cov1" title="1">return u.ID, nil</span>
+}
+
+func (s *userService) Validate(ctx context.Context, id string) (bool, error) <span class="cov10" title="2">{
+        _, err := s.repo.GetByID(ctx, id)
+        if err != nil </span><span class="cov1" title="1">{
+                if errors.Is(err, repo.ErrNotFound) </span><span class="cov1" title="1">{
+                        return false, nil
+                }</span>
+                <span class="cov0" title="0">return false, err</span>
+        }
+        <span class="cov1" title="1">return true, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">package grpcsvr
+
+import (
+        "context"
+        "time"
+
+        userpb "github.com/huntercenter1/backend-test/proto"
+        "github.com/huntercenter1/backend-test/user-service/internal/models"
+        "github.com/huntercenter1/backend-test/user-service/internal/service"
+)
+
+type Server struct {
+        userpb.UnimplementedUserServiceServer
+        svc service.UserService
+}
+
+func NewServer(svc service.UserService) *Server <span class="cov0" title="0">{
+        return &amp;Server{svc: svc}
+}</span>
+
+func toProto(u *models.User) *userpb.User <span class="cov0" title="0">{
+        return &amp;userpb.User{
+                Id:        u.ID,
+                Username:  u.Username,
+                Email:     u.Email,
+                CreatedAt: u.CreatedAt.Format(time.RFC3339),
+                UpdatedAt: u.UpdatedAt.Format(time.RFC3339),
+        }
+}</span>
+
+func (s *Server) CreateUser(ctx context.Context, req *userpb.CreateUserRequest) (*userpb.User, error) <span class="cov0" title="0">{
+        u, err := s.svc.Create(ctx, req.GetUsername(), req.GetEmail(), req.GetPassword())
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">return toProto(u), nil</span>
+}
+
+func (s *Server) GetUser(ctx context.Context, req *userpb.GetUserRequest) (*userpb.User, error) <span class="cov0" title="0">{
+        u, err := s.svc.Get(ctx, req.GetId())
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">return toProto(u), nil</span>
+}
+
+func (s *Server) UpdateUser(ctx context.Context, req *userpb.UpdateUserRequest) (*userpb.User, error) <span class="cov0" title="0">{
+        u, err := s.svc.Update(ctx, req.GetId(), req.GetUsername(), req.GetEmail(), req.GetPassword())
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">return toProto(u), nil</span>
+}
+
+func (s *Server) DeleteUser(ctx context.Context, req *userpb.DeleteUserRequest) (*userpb.DeleteUserResponse, error) <span class="cov0" title="0">{
+        if err := s.svc.Delete(ctx, req.GetId()); err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">return &amp;userpb.DeleteUserResponse{Ok: true}, nil</span>
+}
+
+func (s *Server) AuthenticateUser(ctx context.Context, req *userpb.AuthRequest) (*userpb.AuthResponse, error) <span class="cov0" title="0">{
+        id, err := s.svc.Authenticate(ctx, req.GetUsername(), req.GetPassword())
+        if err != nil </span><span class="cov0" title="0">{ return &amp;userpb.AuthResponse{Ok: false, Message: "invalid credentials"}, nil }</span>
+        <span class="cov0" title="0">return &amp;userpb.AuthResponse{Ok: true, UserId: id, Message: "ok"}, nil</span>
+}
+
+func (s *Server) ValidateUser(ctx context.Context, req *userpb.ValidateUserRequest) (*userpb.ValidateUserResponse, error) <span class="cov0" title="0">{
+        ok, err := s.svc.Validate(ctx, req.GetUserId())
+        if err != nil </span><span class="cov0" title="0">{ return nil, err }</span>
+        <span class="cov0" title="0">return &amp;userpb.ValidateUserResponse{Valid: ok, Message: ""}, nil</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
