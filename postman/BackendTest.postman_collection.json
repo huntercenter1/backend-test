@@ -1,0 +1,117 @@
+{
+  "info": {
+    "name": "BackendTest HTTP",
+    "_postman_id": "f2f0a111-2222-4c33-b444-555555555555",
+    "description": "Colección HTTP para Product y Order services.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "PRODUCT_BASE", "value": "http://localhost:8081" },
+    { "key": "ORDER_BASE", "value": "http://localhost:8082" },
+    { "key": "PRODUCT_ID", "value": "" },
+    { "key": "ORDER_ID", "value": "" },
+    { "key": "USER_ID", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Product Service",
+      "item": [
+        {
+          "name": "Health",
+          "request": { "method": "GET", "url": "{{PRODUCT_BASE}}/health" }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{PRODUCT_BASE}}/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop\",\n  \"description\": \"15 inch\",\n  \"price\": 1200,\n  \"stock\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "List Products",
+          "request": { "method": "GET", "url": "{{PRODUCT_BASE}}/products?limit=20&offset=0" }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": { "method": "GET", "url": "{{PRODUCT_BASE}}/products/{{PRODUCT_ID}}" }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{PRODUCT_BASE}}/products/{{PRODUCT_ID}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop Pro\",\n  \"description\": \"16 inch\",\n  \"price\": 1500,\n  \"stock\": 7\n}"
+            }
+          }
+        },
+        {
+          "name": "Search Products",
+          "request": { "method": "GET", "url": "{{PRODUCT_BASE}}/products/search?q=laptop&limit=10&offset=0" }
+        },
+        {
+          "name": "Update Stock (delta)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{PRODUCT_BASE}}/products/{{PRODUCT_ID}}/stock",
+            "body": { "mode": "raw", "raw": "{ \"delta\": -2 }" }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": { "method": "DELETE", "url": "{{PRODUCT_BASE}}/products/{{PRODUCT_ID}}" }
+        }
+      ]
+    },
+    {
+      "name": "Order Service",
+      "item": [
+        {
+          "name": "Health",
+          "request": { "method": "GET", "url": "{{ORDER_BASE}}/health" }
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{ORDER_BASE}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{USER_ID}}\",\n  \"items\": [\n    { \"product_id\": \"{{PRODUCT_ID}}\", \"quantity\": 2 }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": { "method": "GET", "url": "{{ORDER_BASE}}/orders/{{ORDER_ID}}" }
+        },
+        {
+          "name": "Get Order Items",
+          "request": { "method": "GET", "url": "{{ORDER_BASE}}/orders/{{ORDER_ID}}/items" }
+        },
+        {
+          "name": "Orders by User",
+          "request": { "method": "GET", "url": "{{ORDER_BASE}}/orders/user/{{USER_ID}}" }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{ORDER_BASE}}/orders/{{ORDER_ID}}/status",
+            "body": { "mode": "raw", "raw": "{ \"status\": \"paid\" }" }
+          }
+        }
+      ]
+    }
+  ]
+}

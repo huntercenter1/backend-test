@@ -81,6 +81,10 @@ docker run -d --name swagger-product -p 8090:8080 \
 Para detenerlos:
 docker stop swagger-order swagger-product && docker rm swagger-order swagger-product
 
+
+- gRPC (User Service): ver `docs/user-service-grpc.md` o abrir `docs/user-service-grpc.html`
+
+
 -------------
 
 Migraciones
@@ -107,6 +111,42 @@ Ejecutar test
 make test
 
 --------------
+POSTMAN
 
-Tags y entrega
-Usa semver: git tag v0.1.0 && git push --tags
+Cómo hacer los requests gRPC en Postman (para crear usuarios)
+Esto se hace una vez en la UI de Postman (no viene en el JSON de collection estándar).
+
+Abre Postman → New → gRPC Request.
+
+En “Server URL” pon: {{USER_GRPC_HOST}} (asegúrate de seleccionar el entorno backend-test).
+
+Haz clic en Import .proto → selecciona proto/user.proto del repo.
+
+En Method, elige user.UserService/CreateUser.
+
+En Message pega un JSON de ejemplo:
+
+{
+  "username": "demo2",
+  "email": "demo2@example.com",
+  "password": "123456"
+}
+
+Click Invoke. Verás la respuesta con el id del usuario.
+
+Repite para:
+
+user.UserService/AuthenticateUser:
+
+{ "username":"demo2", "password":"123456" }
+user.UserService/GetUser:
+
+{ "id": "{{USER_ID}}" }
+user.UserService/ValidateUser:
+
+{ "user_id": "{{USER_ID}}" }
+Si Postman te pide reflection y no aparece el servicio, asegúrate:
+
+que el contenedor de user-service tiene reflection habilitado (ya lo tenías activo), o
+
+que importaste proto/user.proto en la request gRPC (es lo más seguro).
